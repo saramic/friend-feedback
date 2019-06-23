@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class QuizDashboard < Administrate::BaseDashboard
+class InvitationDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -8,15 +8,10 @@ class QuizDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    organiser: Field::BelongsTo.with_options(class_name: "User"),
-    # organiser: BelongsToScoped,
+    user: Field::BelongsTo,
+    quiz: Field::BelongsTo,
     id: Field::String.with_options(searchable: false),
-    title: Field::String,
-    organiser_id: Field::String.with_options(searchable: false),
-    users: Field::HasMany.with_options( # invitees
-      searchable: true,
-      searchable_field: 'handle',
-    ),
+    status: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -27,20 +22,19 @@ class QuizDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :organiser,
+    :user,
+    :quiz,
     :id,
-    :title,
-    # organiser_id: Field::String.with_options(searchable: false),
-    # :organiser_id,
+    :status,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :organiser,
+    :user,
+    :quiz,
     :id,
-    :title,
-    :organiser_id,
+    :status,
     :created_at,
     :updated_at,
   ].freeze
@@ -49,15 +43,15 @@ class QuizDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :organiser,
-    :title,
-    :users, # invitees
+    :user,
+    :quiz,
+    :status,
   ].freeze
 
-  # Overwrite this method to customize how quizzes are displayed
+  # Overwrite this method to customize how invitations are displayed
   # across all pages of the admin dashboard.
   #
-  def display_resource(quiz)
-    "Quiz ##{quiz.id.slice(0,6)}"
-  end
+  # def display_resource(invitation)
+  #   "Invitation ##{invitation.id}"
+  # end
 end

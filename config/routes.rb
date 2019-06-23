@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   namespace :admin do
     resources :users, only: [:index, :show, :edit, :update]
     resources :quizzes
+    resources :invitations
 
     root to: "users#edit"
   end
