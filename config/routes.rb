@@ -12,5 +12,6 @@ Rails.application.routes.draw do
     root to: "users#edit"
   end
 
+  get "/*all" => "quizzes#index"
   root to: "quizzes#index"
 end

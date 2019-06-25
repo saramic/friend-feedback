@@ -5,6 +5,7 @@ module Types
 
     field :invitations, resolver: Resolvers::Invitations
     field :invitation, resolver: Resolvers::Invitation
+    field :quizzes, resolver: Resolvers::Quizzes
     field :user, resolver: Resolvers::User
   end
 end
