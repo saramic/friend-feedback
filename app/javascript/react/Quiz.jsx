@@ -10,6 +10,12 @@ const GET_QUIZ = gql`
       organiser {
         handle
       }
+      invitations {
+        id
+        user {
+          handle
+        }
+      }
     }
   }
 `;
@@ -26,6 +32,14 @@ const Quiz = ({ id }) => (
           <div>
             <span>organiser: </span>
             <strong>{data.quiz.organiser.handle}</strong>
+            <div>
+              <strong>invitees</strong>
+              <ul>
+                {data.quiz.invitations.map(invitation => (
+                  <li key={invitation.id}>{invitation.user.handle}</li>
+                ))}
+              </ul>
+            </div>
           </div>
         </>
       );
