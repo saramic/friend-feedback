@@ -6,10 +6,12 @@ import { signOut } from '../api/clearnace';
 import UserGreeting from './UserGreeting';
 import Invitations from './Invitations';
 import Quizzes from './Quizzes';
+import Quiz from './Quiz';
 
 const QuizApp = () => (
   <ApolloProvider client={ApolloClient}>
     <div>Quizz App</div>
+    <UserGreeting />
     <ul>
       <li>
         <Link to="invitations">invitations</Link>
@@ -21,8 +23,8 @@ const QuizApp = () => (
     <Router>
       <Invitations path="invitations" />
       <Quizzes path="quizzes" />
+      <Quiz path="quizzes/:id" />
     </Router>
-    <UserGreeting />
     <button onClick={signOut}>sign out</button>
   </ApolloProvider>
 );

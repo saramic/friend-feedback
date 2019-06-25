@@ -1,10 +1,12 @@
 module Resolvers
-  class Quizzes < Resolvers::BaseResolver
-    description "Find quizzes for logged in user"
+  class Quiz < Resolvers::BaseResolver
+    description "Find quiz for logged in user"
 
-    type [Types::Quiz], null: false
+    argument :id, ID, required: true
 
-    def resolve()
+    type Types::Quiz, null: false
+
+    def resolve(id:)
       ::Quiz.joins(:invitations)
         .where(
           ::Quiz.arel_table[:organiser_id]
@@ -13,7 +15,7 @@ module Resolvers
             ::Invitation.arel_table[:user_id]
             .eq(context[:current_user].id)
           )
-        )
+        ).find(id)
     end
   end
 end

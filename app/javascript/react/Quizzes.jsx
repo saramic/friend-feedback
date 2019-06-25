@@ -22,7 +22,7 @@ const Quizzes = () => (
         <ul>
           {data.quizzes.map(({ id, title }) => {
             return (
-              <Link to={id}>
+              <Link to={id} key={id}>
                 <div>Quiz: {title}</div>
               </Link>
             );
