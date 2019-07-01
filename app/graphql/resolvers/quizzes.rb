@@ -13,7 +13,7 @@ module Resolvers
             ::Invitation.arel_table[:user_id]
             .eq(context[:current_user].id)
           )
-        )
+        ).distinct
     end
   end
 end

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_23_014518) do
+ActiveRecord::Schema.define(version: 2019_06_25_224652) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -24,6 +24,19 @@ ActiveRecord::Schema.define(version: 2019_06_23_014518) do
     t.datetime "updated_at", precision: 6, null: false
     t.index ["quiz_id"], name: "index_invitations_on_quiz_id"
     t.index ["user_id"], name: "index_invitations_on_user_id"
+  end
+
+  create_table "questions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "text"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
+
+  create_table "questions_quizzes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "quiz_id", null: false
+    t.uuid "question_id", null: false
+    t.index ["question_id"], name: "index_questions_quizzes_on_question_id"
+    t.index ["quiz_id"], name: "index_questions_quizzes_on_quiz_id"
   end
 
   create_table "quizzes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
@@ -49,4 +62,6 @@ ActiveRecord::Schema.define(version: 2019_06_23_014518) do
 
   add_foreign_key "invitations", "quizzes"
   add_foreign_key "invitations", "users"
+  add_foreign_key "questions_quizzes", "questions"
+  add_foreign_key "questions_quizzes", "quizzes"
 end

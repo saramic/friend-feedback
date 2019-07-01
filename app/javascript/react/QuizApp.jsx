@@ -14,6 +14,9 @@ const QuizApp = () => (
     <UserGreeting />
     <ul>
       <li>
+        <a href="/admin">admin</a>
+      </li>
+      <li>
         <Link to="invitations">invitations</Link>
       </li>
       <li>

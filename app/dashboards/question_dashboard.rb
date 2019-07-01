@@ -1,6 +1,6 @@
 require "administrate/base_dashboard"
 
-class QuizDashboard < Administrate::BaseDashboard
+class QuestionDashboard < Administrate::BaseDashboard
   # ATTRIBUTE_TYPES
   # a hash that describes the type of each of the model's fields.
   #
@@ -8,16 +8,9 @@ class QuizDashboard < Administrate::BaseDashboard
   # which determines how the attribute is displayed
   # on pages throughout the dashboard.
   ATTRIBUTE_TYPES = {
-    organiser: Field::BelongsTo.with_options(class_name: "User"),
-    # organiser: BelongsToScoped,
+    quizzes: Field::HasMany,
     id: Field::String.with_options(searchable: false),
-    title: Field::String,
-    organiser_id: Field::String.with_options(searchable: false),
-    users: Field::HasMany.with_options( # invitees
-      searchable: true,
-      searchable_field: 'handle',
-    ),
-    questions: Field::HasMany,
+    text: Field::String,
     created_at: Field::DateTime,
     updated_at: Field::DateTime,
   }.freeze
@@ -28,20 +21,18 @@ class QuizDashboard < Administrate::BaseDashboard
   # By default, it's limited to four items to reduce clutter on index pages.
   # Feel free to add, remove, or rearrange items.
   COLLECTION_ATTRIBUTES = [
-    :organiser,
+    :quizzes,
     :id,
-    :title,
-    # organiser_id: Field::String.with_options(searchable: false),
-    # :organiser_id,
+    :text,
+    :created_at,
   ].freeze
 
   # SHOW_PAGE_ATTRIBUTES
   # an array of attributes that will be displayed on the model's show page.
   SHOW_PAGE_ATTRIBUTES = [
-    :organiser,
+    :quizzes,
     :id,
-    :title,
-    :organiser_id,
+    :text,
     :created_at,
     :updated_at,
   ].freeze
@@ -50,16 +41,15 @@ class QuizDashboard < Administrate::BaseDashboard
   # an array of attributes that will be displayed
   # on the model's form (`new` and `edit`) pages.
   FORM_ATTRIBUTES = [
-    :organiser,
-    :title,
-    :users, # invitees
+    :quizzes,
+    :text,
     :questions,
   ].freeze
 
-  # Overwrite this method to customize how quizzes are displayed
+  # Overwrite this method to customize how questions are displayed
   # across all pages of the admin dashboard.
-  #
-  def display_resource(quiz)
-    "Quiz ##{quiz.id.slice(0,6)}"
+
+  def display_resource(question)
+    "Question: #{question.text.slice(0,200)}"
   end
 end

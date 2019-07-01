@@ -1,6 +1,6 @@
-import React from 'react';
-import { Query } from 'react-apollo';
-import { gql } from 'apollo-boost';
+import React from "react";
+import { Query } from "react-apollo";
+import { gql } from "apollo-boost";
 
 const GET_QUIZ = gql`
   query Quiz($id: ID!) {
@@ -16,6 +16,10 @@ const GET_QUIZ = gql`
           handle
         }
       }
+      questions {
+        id
+        text
+      }
     }
   }
 `;
@@ -23,7 +27,7 @@ const GET_QUIZ = gql`
 const Quiz = ({ id }) => (
   <Query query={GET_QUIZ} variables={{ id }}>
     {({ loading, error, data }) => {
-      if (loading) return 'Loading...';
+      if (loading) return "Loading...";
       if (error) return `Error! ${id} ${error.message}`;
 
       return (
@@ -37,6 +41,14 @@ const Quiz = ({ id }) => (
               <ul>
                 {data.quiz.invitations.map(invitation => (
                   <li key={invitation.id}>{invitation.user.handle}</li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <strong>questions</strong>
+              <ul>
+                {data.quiz.questions.map(question => (
+                  <li key={question.id}>{question.text}</li>
                 ))}
               </ul>
             </div>
