@@ -9,8 +9,11 @@ module Resolvers
     def resolve(id:)
       ::Quiz
         .left_joins(:invitations, :questions)
+        .left_joins(questions: :questions_quizzes)
+        .joins(questions_quizzes: :votes)
         .includes(invitations: :user)
         .includes(:questions)
+        .includes(questions_quizzes: :votes)
         .where(
           ::Quiz.arel_table[:organiser_id]
           .eq(context[:current_user].id)
@@ -19,6 +22,7 @@ module Resolvers
             .eq(context[:current_user].id)
           )
         )
+        .where(::QuestionsQuiz.arel_table[:quiz_id].eq(id))
         .find(id)
     end
   end

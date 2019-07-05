@@ -1,6 +1,6 @@
-import React from 'react';
-import { Mutation, Query } from 'react-apollo';
-import { gql } from 'apollo-boost';
+import React from "react";
+import { Mutation, Query } from "react-apollo";
+import { gql } from "apollo-boost";
 
 const GET_INVITATIONS = gql`
   {
@@ -33,7 +33,7 @@ const Invitation = ({ id, status }) => {
         status: input.value
       }
     });
-    input.value = '';
+    input.value = "";
   };
 
   return (
@@ -66,7 +66,7 @@ const Invitation = ({ id, status }) => {
 const Invitations = () => (
   <Query query={GET_INVITATIONS} pollInterval={1000}>
     {({ loading, error, data }) => {
-      if (loading) return 'Loading...';
+      if (loading) return "Loading...";
       if (error) return `Error! ${error.message}`;
 
       return (

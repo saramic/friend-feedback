@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_06_25_224652) do
+ActiveRecord::Schema.define(version: 2019_07_02_161253) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "pgcrypto"
@@ -60,8 +60,19 @@ ActiveRecord::Schema.define(version: 2019_06_25_224652) do
     t.index ["remember_token"], name: "index_users_on_remember_token"
   end
 
+  create_table "votes", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.uuid "user_id", null: false
+    t.uuid "questions_quiz_id", null: false
+    t.integer "status", null: false
+    t.index ["questions_quiz_id"], name: "index_votes_on_questions_quiz_id"
+    t.index ["user_id", "questions_quiz_id"], name: "index_votes_on_user_id_and_questions_quiz_id", unique: true
+    t.index ["user_id"], name: "index_votes_on_user_id"
+  end
+
   add_foreign_key "invitations", "quizzes"
   add_foreign_key "invitations", "users"
   add_foreign_key "questions_quizzes", "questions"
   add_foreign_key "questions_quizzes", "quizzes"
+  add_foreign_key "votes", "questions_quizzes"
+  add_foreign_key "votes", "users"
 end
