@@ -10,7 +10,7 @@ module Resolvers
       ::Quiz
         .left_joins(:invitations, :questions)
         .left_joins(questions: :questions_quizzes)
-        .joins(questions_quizzes: :votes)
+        .left_joins(questions_quizzes: :votes)
         .includes(invitations: :user)
         .includes(:questions)
         .includes(questions_quizzes: :votes)

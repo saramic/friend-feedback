@@ -5,7 +5,7 @@ module Resolvers
     type [Types::Quiz], null: false
 
     def resolve()
-      ::Quiz.joins(:invitations)
+      ::Quiz.joins(:invitations, :questions)
         .where(
           ::Quiz.arel_table[:organiser_id]
           .eq(context[:current_user].id)
